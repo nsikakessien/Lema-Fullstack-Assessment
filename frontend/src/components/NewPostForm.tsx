@@ -21,7 +21,6 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
     <>
       <p className="mb-6 font-medium text-4xl text-[#181D27]">New Post</p>
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Title */}
         <div>
           <label className="block text-[18px] font-medium text-[#535862] mb-[10px]">
             Post title
@@ -35,7 +34,6 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
           />
         </div>
 
-        {/* Content */}
         <div>
           <label className="block text-[18px] font-medium text-[#535862] mb-[10px]">
             Post content
@@ -49,7 +47,6 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
           />
         </div>
 
-        {/* Actions */}
         <div className="flex justify-end gap-3">
           <button
             type="button"
