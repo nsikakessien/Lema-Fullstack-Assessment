@@ -30,7 +30,7 @@ function UserDetails() {
   return (
     <>
       <div className="md:py-[50px]">
-        <div className="max-w-4xl mx-auto">
+        <div className="lg:max-w-4xl md:max-w-2xl max-w-96 p-6 md:p-0 mx-auto">
           <button
             onClick={() => navigate("/")}
             className="text-sm text-[#535862] font-semibold hover:text-gray-700 mb-4 flex gap-2 items-center"
@@ -46,8 +46,13 @@ function UserDetails() {
           </p>
 
           <div className="grid gap-6 justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            <button className="flex w-full sm:w-[270px] items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-gray-500 hover:border-gray-400 hover:text-gray-700 transition">
-              <FiPlusCircle className="w-6 h-6" />
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+              className="flex flex-col gap-2 w-full cursor-pointer sm:w-[270px] items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-[#717680] hover:border-gray-400 hover:text-gray-700 transition"
+            >
+              <FiPlusCircle className="w-6 h-6 text-[#717680]" />
               New Post
             </button>
 
@@ -76,11 +81,7 @@ function UserDetails() {
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="New Post"
-      >
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <NewPostForm
           onCancel={() => setIsModalOpen(false)}
           onPublish={() => {}}

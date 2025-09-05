@@ -1,4 +1,3 @@
-// src/components/NewPostForm.tsx
 import { useState } from "react";
 
 type NewPostFormProps = {
@@ -19,51 +18,54 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Title */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Post title
-        </label>
-        <input
-          type="text"
-          placeholder="Give your post a title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-      </div>
+    <>
+      <p className="mb-6 font-medium text-4xl text-[#181D27]">New Post</p>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Title */}
+        <div>
+          <label className="block text-[18px] font-medium text-[#535862] mb-[10px]">
+            Post title
+          </label>
+          <input
+            type="text"
+            placeholder="Give your post a title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full rounded-md border-[#E2E8F0] px-4 py-[10px] placeholder:text-[#94A3B8] placeholder:text-sm placeholder:font-normal shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+        </div>
 
-      {/* Content */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Post content
-        </label>
-        <textarea
-          rows={5}
-          placeholder="Write something mind-blowing"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          className="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-      </div>
+        {/* Content */}
+        <div>
+          <label className="block text-[18px] font-medium text-[#535862] mb-[10px]">
+            Post content
+          </label>
+          <textarea
+            rows={5}
+            placeholder="Write something mind-blowing"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full rounded-md border-[#E2E8F0] px-4 py-[10px] placeholder:text-[#94A3B8] placeholder:text-sm placeholder:font-normal resize-none shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+        </div>
 
-      {/* Actions */}
-      <div className="flex justify-end gap-3">
-        <button
-          type="button"
-          onClick={onCancel}
-          className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-4 py-2 rounded-md bg-gray-800 text-white hover:bg-gray-900"
-        >
-          Publish
-        </button>
-      </div>
-    </form>
+        {/* Actions */}
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 rounded-md border border-[#E2E8F0] text-[#334155] text-sm hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-md bg-[#334155] text-white text-sm font-semibold hover:bg-gray-900"
+          >
+            Publish
+          </button>
+        </div>
+      </form>
+    </>
   );
 }

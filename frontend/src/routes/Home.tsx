@@ -37,7 +37,7 @@ function Home() {
   const { data: totalCount, isLoading: usersCountLoading } = useUsersCount();
 
   return (
-    <main className="flex flex-col justify-center md:py-[130px] md:px-0 px-4 py-10">
+    <main className="flex flex-col justify-center md:py-[50px] md:p-0 p-6">
       <div className="md:mx-auto md:w-4xl">
         <p className="text-left text-6xl font-medium mb-6">Users</p>
         <Table
