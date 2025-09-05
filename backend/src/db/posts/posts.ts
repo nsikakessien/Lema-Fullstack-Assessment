@@ -4,6 +4,7 @@ import {
   insertPostTemplate,
   selectPostsTemplate,
 } from "./query-tamplates";
+import { v4 as uuidv4 } from "uuid";
 import { Post } from "./types";
 
 export const getPosts = (userId: string): Promise<Post[]> =>
@@ -19,16 +20,21 @@ export const getPosts = (userId: string): Promise<Post[]> =>
 export const addPost = (
   title: string,
   body: string,
-  userId: string
+  userId: string,
+  createdAt: string
 ): Promise<number> =>
   new Promise((resolve, reject) => {
-    connection.run(insertPostTemplate, [title, body, userId], function (error) {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(this.lastID);
+    connection.run(
+      insertPostTemplate,
+      [title, body, userId, createdAt, uuidv4()],
+      function (error) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(this.lastID);
+        }
       }
-    });
+    );
   });
 
 export const deletePost = (postId: string): Promise<void> =>

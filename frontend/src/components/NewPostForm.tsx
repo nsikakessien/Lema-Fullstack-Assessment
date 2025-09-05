@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type NewPostFormProps = {
   onCancel: () => void;
   onPublish: (title: string, content: string) => void;
   isPending: boolean;
   isError: boolean;
+  isSuccess: boolean;
 };
 
 export function NewPostForm({
@@ -12,6 +13,7 @@ export function NewPostForm({
   onPublish,
   isPending,
   isError,
+  isSuccess,
 }: NewPostFormProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -20,12 +22,15 @@ export function NewPostForm({
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
     onPublish(title, content);
-    if (!isError) {
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
       setTitle("");
       setContent("");
       onCancel();
     }
-  };
+  }, [isSuccess, onCancel]);
 
   return (
     <>

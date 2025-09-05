@@ -3,9 +3,10 @@ import { FiPlusCircle } from "react-icons/fi";
 import { useAddPost, useDeletePost, usePosts } from "../hooks/usePosts";
 import { useLocation, useNavigate, useParams } from "react-router";
 import EllipsisLoader from "../components/EllipsisLoader";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Modal } from "../components/Modal";
 import { NewPostForm } from "../components/NewPostForm";
+import { formatISO } from "date-fns";
 
 function UserDetails() {
   const navigate = useNavigate();
@@ -19,13 +20,24 @@ function UserDetails() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onPublish = (title: string, content: string) => {
-    addPost.mutate({ title, body: content, userId: userId as string });
-  };
+  const onPublish = useCallback(
+    (title: string, content: string) => {
+      addPost.mutate({
+        title,
+        body: content,
+        userId: userId as string,
+        createdAt: formatISO(new Date(), { representation: "complete" }),
+      });
+    },
+    [addPost, userId]
+  );
 
-  const onDelete = (id: string) => {
-    deletePost.mutate(id as string);
-  };
+  const onDelete = useCallback(
+    (id: string) => {
+      deletePost.mutate(id as string);
+    },
+    [deletePost]
+  );
 
   if (postsLoading) {
     return (
@@ -53,7 +65,7 @@ function UserDetails() {
             {user?.email} • {posts?.length} Posts
           </p>
 
-          <div className="grid gap-6 justify-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <button
               onClick={() => {
                 setIsModalOpen(true);
@@ -103,6 +115,7 @@ function UserDetails() {
           onPublish={onPublish}
           isPending={addPost.isPending}
           isError={addPost.isError}
+          isSuccess={addPost.isSuccess}
         />
       </Modal>
     </>

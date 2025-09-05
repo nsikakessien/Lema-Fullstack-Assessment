@@ -14,15 +14,17 @@ router.get("/", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const { title, body, userId } = req.body;
+  const { title, body, userId, createdAt } = req.body;
 
-  if (!title || !body || !userId) {
-    res.status(400).send({ error: "title, body and userId are required" });
+  if (!title || !body || !userId || !createdAt) {
+    res
+      .status(400)
+      .send({ error: "title, body, createdAt and userId are required" });
     return;
   }
 
   try {
-    const postId = await addPost(title, body, userId);
+    const postId = await addPost(title, body, userId, createdAt);
     res.status(201).send({ message: "Post created successfully", postId });
   } catch (error) {
     const errorMessage =

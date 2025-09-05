@@ -23,6 +23,7 @@ type NewPost = {
   title: string;
   body: string;
   userId: string;
+  createdAt: string;
 };
 
 export const usePosts = ({ userId }: GetPostProps) => {

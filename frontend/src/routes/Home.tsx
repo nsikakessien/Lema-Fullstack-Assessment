@@ -38,7 +38,7 @@ function Home() {
 
   return (
     <main className="flex flex-col justify-center md:py-[50px] md:p-0 p-6">
-      <div className="md:mx-auto md:w-4xl">
+      <div className="md:mx-auto lg:w-4xl">
         <p className="text-left text-6xl font-medium mb-6">Users</p>
         <Table
           data={(users as User[]) || []}
