@@ -119,7 +119,7 @@ export function Table<T extends object>({
         </table>
       </div>
 
-      <div className="flex items-center justify-end mt-5">
+      <div className="flex items-center md:justify-end mt-5 overflow-auto">
         <ReactPaginate
           breakLabel="..."
           nextLabel={

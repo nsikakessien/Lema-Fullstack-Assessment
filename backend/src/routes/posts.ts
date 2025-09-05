@@ -22,10 +22,12 @@ router.post("/", async (req: Request, res: Response) => {
   }
 
   try {
-    await addPost(title, body, userId);
-    res.status(201).send({ message: "Post created successfully" });
+    const postId = await addPost(title, body, userId);
+    res.status(201).send({ message: "Post created successfully", postId });
   } catch (error) {
-    res.status(500).send({ error: "Failed to create post" });
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    res.status(500).send({ error: errorMessage });
   }
 });
 

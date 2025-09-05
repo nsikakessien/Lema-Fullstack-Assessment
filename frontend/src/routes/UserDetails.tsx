@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaRegTrashAlt } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
-import { usePosts } from "../hooks/usePosts";
+import { useAddPost, useDeletePost, usePosts } from "../hooks/usePosts";
 import { useLocation, useNavigate, useParams } from "react-router";
 import EllipsisLoader from "../components/EllipsisLoader";
 import { useState } from "react";
@@ -14,10 +14,18 @@ function UserDetails() {
   const { data: posts, isLoading: postsLoading } = usePosts({
     userId: userId as string,
   });
+  const addPost = useAddPost();
+  const deletePost = useDeletePost(userId as string);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log("posts", posts);
+  const onPublish = (title: string, content: string) => {
+    addPost.mutate({ title, body: content, userId: userId as string });
+  };
+
+  const onDelete = (id: string) => {
+    deletePost.mutate(id as string);
+  };
 
   if (postsLoading) {
     return (
@@ -56,27 +64,35 @@ function UserDetails() {
               New Post
             </button>
 
-            {posts?.map((post) => (
-              <div
-                key={post.id}
-                className="relative bg-white rounded-lg shadow-sm border p-4 flex flex-col w-full sm:w-[270px]"
-              >
-                <button
-                  onClick={() => {}}
-                  className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
+            {posts?.map((post) => {
+              const isDeleting =
+                deletePost.variables === post.id && deletePost.isPending;
+              return (
+                <div
+                  key={post.id}
+                  className={`relative bg-white rounded-lg shadow-sm border p-4 flex flex-col w-full sm:w-[270px] ${
+                    isDeleting && "opacity-40 cursor-not-allowed"
+                  }`}
                 >
-                  <FaRegTrashAlt className="w-4 h-4 text-[#F9566A] cursor-pointer" />
-                </button>
+                  <button
+                    onClick={() => {
+                      onDelete(post.id);
+                    }}
+                    className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
+                  >
+                    <FaRegTrashAlt className="w-4 h-4 text-[#F9566A] cursor-pointer" />
+                  </button>
 
-                <h2 className="font-semibold text-gray-900 mb-2">
-                  {post.title}
-                </h2>
+                  <h2 className="font-semibold text-gray-900 mb-2">
+                    {post.title}
+                  </h2>
 
-                <p className="text-sm text-gray-600 line-clamp-4">
-                  {post.body}
-                </p>
-              </div>
-            ))}
+                  <p className="text-sm text-gray-600 line-clamp-4">
+                    {post.body}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -84,7 +100,9 @@ function UserDetails() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <NewPostForm
           onCancel={() => setIsModalOpen(false)}
-          onPublish={() => {}}
+          onPublish={onPublish}
+          isPending={addPost.isPending}
+          isError={addPost.isError}
         />
       </Modal>
     </>

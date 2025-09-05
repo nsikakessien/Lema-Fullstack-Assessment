@@ -20,13 +20,14 @@ export const addPost = (
   title: string,
   body: string,
   userId: string
-): Promise<void> =>
+): Promise<number> =>
   new Promise((resolve, reject) => {
     connection.run(insertPostTemplate, [title, body, userId], function (error) {
       if (error) {
         reject(error);
+      } else {
+        resolve(this.lastID);
       }
-      resolve();
     });
   });
 

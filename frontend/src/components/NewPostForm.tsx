@@ -3,9 +3,16 @@ import { useState } from "react";
 type NewPostFormProps = {
   onCancel: () => void;
   onPublish: (title: string, content: string) => void;
+  isPending: boolean;
+  isError: boolean;
 };
 
-export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
+export function NewPostForm({
+  onCancel,
+  onPublish,
+  isPending,
+  isError,
+}: NewPostFormProps) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -13,8 +20,11 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
     onPublish(title, content);
-    setTitle("");
-    setContent("");
+    if (!isError) {
+      setTitle("");
+      setContent("");
+      onCancel();
+    }
   };
 
   return (
@@ -57,11 +67,13 @@ export function NewPostForm({ onCancel, onPublish }: NewPostFormProps) {
           </button>
           <button
             type="submit"
-            className="px-4 py-2 rounded-md bg-[#334155] text-white text-sm font-semibold hover:bg-gray-900"
+            disabled={!title || !content || isPending}
+            className="px-4 py-2 rounded-md bg-[#334155] disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold hover:bg-gray-900"
           >
-            Publish
+            {isPending ? "Publishing..." : "Publish"}
           </button>
         </div>
+        {isError && <p style={{ color: "red" }}>Failed to add post</p>}
       </form>
     </>
   );
